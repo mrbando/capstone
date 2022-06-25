@@ -10,8 +10,8 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
       "table_name",
       "capacity",
     ]);
-    const invalidFields = Object.keys(data).filter(field => !invalidFields.has(field));
-    invalidFields 
+    const invalidFields = Object.keys(data).filter(field => !validFields.has(field));
+    invalidFields.length
         ? next({
             status: 400,
             message: `Invalid field(s): ${invalidFields.join(", ")}`,
@@ -166,7 +166,7 @@ module.exports = {
         asyncErrorBoundary(create)
     ],
     read: [hasTableId, asyncErrorBoundary(read)],
-    list: [asyncErrorBoundary(list)],
+    list: asyncErrorBoundary(list),
     seat: [tableExists, isAvailable, hasCapacity, isBooked, seat],
     occupy: [tableExists, isOccupied, occupy],
 }

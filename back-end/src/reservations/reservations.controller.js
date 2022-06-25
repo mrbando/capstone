@@ -19,13 +19,14 @@ function hasValidFields(req, res, next) {
     "reservation_id"
   ]);
 
-  const invalidFields = Object.keys(data).filter(field => !invalidFields.has(field));
-  invalidFields 
-    ? next({
-        status: 400,
-        message: `Invalid field(s): ${invalidFields.join(", ")}`,
-      })
-    : next();
+  const invalidFields = Object.keys(data).filter(field => !validFields.has(field));
+  if(invalidFields.length) {
+    return next({
+      status: 400,
+      message: `Invalid field(s): ${invalidFields.join(", ")}`,
+    })
+  }
+  next();
 }
 
 function hasReservationId(req, res, next) {
@@ -81,12 +82,13 @@ async function reservationExists(req, res, next) {
 function bodyDataHas(propertyName) {
   return function (req, res, next) {
     const { data = {}} = req.body;
-    data[propertyName] 
-      ? next()
-      : next({
-          status: 400,
-          message: `Must include a ${propertyName}}`,
-        })
+    if(data[propertyName] ){
+      return next()
+    }
+    next({
+      status: 400,
+      message: `Must include a ${propertyName}`,
+    })
   }
 }
 
@@ -162,7 +164,6 @@ async function list(req, res) {
     data,
   });
 }
-
 
 /**
  * Create handler for reservation resources
@@ -240,14 +241,14 @@ module.exports = {
     isValidTime,
     isValidNumber, 
     checkStatus,
-    asyncErrorBoundary(create)
+    asyncErrorBoundary(create),
   ],
   read: [
     hasReservationId,
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(read)
   ],
-  list: [asyncErrorBoundary(list)],
+  list: asyncErrorBoundary(list),
   reservationExists: [
     hasReservationId,
     reservationExists,
