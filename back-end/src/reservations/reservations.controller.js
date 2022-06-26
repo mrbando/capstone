@@ -42,7 +42,7 @@ function hasReservationId(req, res, next) {
   }
 }
 
-
+//////// #is this used???
 function hasReservationIdForTable(req, res, next) {
   const reservation = req.params.reservation_id || req.params.table_id || req.body?.data?.reservation_id;
   if(reservation){
@@ -82,12 +82,12 @@ async function reservationExists(req, res, next) {
 function bodyDataHas(propertyName) {
   return function (req, res, next) {
     const { data = {}} = req.body;
-    if(data[propertyName] ){
-      return next()
+    if(data[propertyName]){
+      next()
     }
     next({
       status: 400,
-      message: `Must include a ${propertyName}`,
+      message: `Must include ${propertyName}`,
     })
   }
 }
