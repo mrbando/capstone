@@ -7,6 +7,7 @@ import Dashboard from "../dashboard/Dashboard";
 import ReservationSeat from "../reservations/ReservationSeat";
 import ReservationNew from "../reservations/ReservationNew";
 import ReservationEdit from "../reservations/ReservationEdit";
+import ReservationDisplay from "../reservations/ReservationDisplay";
 
 // table
 import TableNew from "../tables/TableNew";
@@ -35,16 +36,19 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={query.get("date") || today()} />
+        <Dashboard date={query.get("date")} />
       </Route>
       <Route exact={true} path="/reservations/new">
         <ReservationNew />
       </Route>
-      <Route exact={true} path="/reservations/:reservation_id/seat">
+      <Route path="/reservations/:reservation_id/seat">
         <ReservationSeat />
       </Route>
       <Route exact={true} path="/reservations/:reservation_id/edit">
         <ReservationEdit />
+      </Route>
+      <Route path="/reservations/:reservation_id">
+        <ReservationDisplay />
       </Route>
       <Route path="/tables/new">
         <TableNew />

@@ -88,6 +88,10 @@ export async function createReservation(reservation, signal) {
     headers,
     signal
   }
+  console.log({
+    url: url,
+    options: options
+  })
   return await fetchJson(url, options, {});
 }
 
@@ -104,10 +108,26 @@ export async function createTable(table, signal) {
 }
 
 // seatReservation - PUT
-export async function seatReservation(signal) {}
+export async function seatReservation(selectedTableId, reservationId, signal) {
+  const url = `${API_BASE_URL}/tables/${selectedTableId}/seat`;
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: {reservation_id: reservationId} }),
+    signal
+  }
+  return await fetchJson(url, options, {})
+}
 
 // unreserveTable - DELETE
-export async function unreserveTable(signal) {}
+export async function unreserveTable(tableId, signal) {
+  const url = `${API_BASE_URL}/tables/${tableId}/seat`;
+  const options = {
+    method: "DELETE",
+    body: JSON.stringify({ data: {} }),
+    signal
+  }
+  return await fetchJson(url, options, {})
+}
 
 // search - GET
 export async function search(number, signal) {

@@ -128,6 +128,16 @@ function isValidTime(req, res, next){
   next({ status: 400, message: `Invalid reservation_time` });
 }
 
+function hasValidTime(req, res, next) {
+  const { reservation_time } = req.body.data;
+  const timeRegex = new RegExp(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/);
+  if (reservation_time && reservation_time !== "" && reservation_time.match(timeRegex)) {
+    next();
+  } else {
+    next({ status: 400, message: "reservation_time must be a valid time"});
+  }
+}
+
 /**
  * Valid Number handler for reservation resources
  */
@@ -238,7 +248,7 @@ module.exports = {
     has_reservation_time,
     has_people,
     isValidDate,
-    isValidTime,
+    hasValidTime,
     isValidNumber, 
     checkStatus,
     asyncErrorBoundary(create),
@@ -268,7 +278,7 @@ module.exports = {
     has_reservation_time,
     has_people,
     isValidDate,
-    isValidTime,
+    hasValidTime,
     isValidNumber, 
     checkStatus,
     hasReservationId,

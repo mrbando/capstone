@@ -4,7 +4,7 @@ import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { previous, next, today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
-import ListReservations from "./Reservations";
+import ReservationList from "../reservations/ReservationList";
 import ListTables from "./Tables";
 import { Link } from "react-router-dom";
 
@@ -15,31 +15,6 @@ import { Link } from "react-router-dom";
  * @returns {JSX.Element}
  */
 function Dashboard({ date }) {
-  // const [reservations, setReservations] = useState([]);
-  // const [reservationsError, setReservationsError] = useState(null);
-
-  // useEffect(loadDashboard, [date]);
-
-  // function loadDashboard() {
-  //   const abortController = new AbortController();
-  //   setReservationsError(null);
-  //   listReservations({ date }, abortController.signal)
-  //     .then(setReservations)
-  //     .catch(setReservationsError);
-  //   return () => abortController.abort();
-  // }
-
-
-  // return (
-  //   <main>
-  //     <h1>Dashboard</h1>
-  //     <div className="d-md-flex mb-3">
-  //       <h4 className="mb-0">Reservations for date</h4>
-  //     </div>
-  //     <ErrorAlert error={reservationsError} />
-  //     {JSON.stringify(reservations)}
-  //   </main>
-  // );
 
   const [stateForm, setStateForm] = useState({
     reservations: [],
@@ -131,7 +106,7 @@ function Dashboard({ date }) {
 
   return (
     <>
-      <div className="padded col-lg-7 col-md-5 col-sm-12 col-xs-6  align-self-start m-3 me-5 pe-5 card-main">
+      <div className="padded col-lg-7 col-md-5 col-sm-12 col-xs-6 align-self-start m-3 me-5 pe-5 card-main">
         <div className="text-center">
           <div>
             <div className="row p-0 justify-content-center">
@@ -147,7 +122,6 @@ function Dashboard({ date }) {
             </div>
 
             <h6 className="my-2">
-              Date:
               {date ? date : todaysDate}
             </h6>
             <div className="mb-3">
@@ -174,7 +148,7 @@ function Dashboard({ date }) {
             </div>
             <div className="text-left">
               {loading ? loadingSpinner : null}
-              <ListReservations reservations={reservations} />
+              <ReservationList reservations={reservations} />
               {!reservations.length && !loading ? (
                 <div className="container p-3 text-center">
                   <p>No reservations found for this date.</p>

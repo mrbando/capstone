@@ -61,7 +61,7 @@ function Menu() {
             aria-label="Search"
             className="form-control mr-2"
             onChange={handleChange}
-            placeHolder="Enter yo digits, Yo!"
+            placeholder="Enter yo digits, Yo!"
             required
             type="search"
             value={number}
